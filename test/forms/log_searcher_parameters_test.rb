@@ -3,7 +3,8 @@ class LogSearcherParametersTest < ActiveSupport::TestCase
     @search_params = LogSearcherParameters.new(
       file_name: 'test2.log',
       search_string: 'hey',
-      limit: 5
+      limit: 5,
+      page: 2
     )
   end
 
@@ -12,6 +13,7 @@ class LogSearcherParametersTest < ActiveSupport::TestCase
     assert @search_params.valid?
     assert_equal 'test2.log', @search_params.file_name
     assert_equal 5, @search_params.limit
+    assert_equal 2, @search_params.page
     assert_equal 'hey', @search_params.search_string
   end
 
