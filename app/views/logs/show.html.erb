@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Search Logs</title>
+</head>
+<body>
+  <h1>Search Logs</h1>
+  <%= form_with(url: "/logs", method: :get) do |form| %>
+    <div class="field">
+        <%= form.label :file_name, 'File Name' %>
+        <%= form.text_field :file_name, value: default_file_name %>
+    </div>
+    <div class="field">
+        <%= form.label :search_string, 'Search String' %>
+        <%= form.text_field :search_string, value: default_search_string %>
+    </div>
+    <div class="field">
+        <%= form.label :limit, 'Limit' %>
+        <%= form.number_field :limit, value: default_limit %>
+    </div>
+    <div class="field">
+        <%= form.label :page, 'Page' %>
+        <%= form.number_field :page, value: default_page %>
+    </div>
+    <%= form.submit 'Search' %>
+    <% end %>
+
+    <% if result %>
+      <h2>Entries:</h2>
+      <ul>
+        <% result[:entries].each do |entry| %>
+          <li><%= entry %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <h2>Error:</h2>
+      <%= error[:status] %> (<%= Rack::Utils::SYMBOL_TO_STATUS_CODE[error[:status]] %>): <%= error[:message] %>
+    <% end %>
+</body>
+</html>
