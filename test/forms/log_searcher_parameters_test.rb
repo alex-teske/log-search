@@ -42,4 +42,18 @@ class LogSearcherParametersTest < ActiveSupport::TestCase
     refute @search_params.valid?
     assert_includes @search_params.errors.full_messages, 'Limit must be less than 1000'
   end
+
+  test 'parameters are invalid if page not greater than zero' do
+    @search_params.page = 0
+
+    refute @search_params.valid?
+    assert_includes @search_params.errors.full_messages, 'Page must be greater than 0'
+  end
+
+  test 'parameters are invalid if page is not a number' do
+    @search_params.page = 'abc'
+
+    refute @search_params.valid?
+    assert_includes @search_params.errors.full_messages, 'Page is not a number'
+  end
 end

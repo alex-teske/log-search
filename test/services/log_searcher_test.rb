@@ -41,6 +41,17 @@ class LogSearcherTest < ActiveSupport::TestCase
     end
   end
 
+  test 'should paginate results' do
+    mock_file_content do
+      @valid_search_params.limit = 2
+      @valid_search_params.page = 2
+      result = LogSearcher.call(@valid_search_params)
+
+      expected = ['kinda old log message', 'oldest log message']
+      assert_equal(expected, result.value)
+    end
+  end
+
   test 'should return an error when passing invalid search parameters' do
     result = LogSearcher.call(@invalid_search_params)
 

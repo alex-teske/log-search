@@ -10,7 +10,7 @@ class LogsController < ApplicationController
   private
 
   def permitted_params
-    @permitted_params ||= params.permit(:file_name, :limit, :search_string)
+    @permitted_params ||= params.permit(:file_name, :search_string, :limit, :page)
   end
 
   def search_params

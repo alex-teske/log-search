@@ -25,6 +25,7 @@ class LogSearcher
         .reverse_each
         .lazy
         .grep(search_regex)
+        .drop(@search_params.limit * (@search_params.page - 1))
         .take(@search_params.limit)
         .map(&:strip)
         .to_a
