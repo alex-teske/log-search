@@ -1,0 +1,4 @@
+oldest log message
+kinda old log message
+kinda new log message
+newest log message
