@@ -23,6 +23,8 @@ Test:
 rails test
 ```
 
+For the service to return any results, you will need log/text files in the server's /var/logs directory
+
 ## Usage (front-end and api)
 
 The web service exposes two endpoints:
