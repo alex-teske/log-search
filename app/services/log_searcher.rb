@@ -20,15 +20,19 @@ class LogSearcher
   private
 
   def search_log_file
-    File.open(log_file_path, 'r') do |log_file|
-      log_file
-        .reverse_each
-        .lazy
+    load_log_entries do |log_entries|
+      log_entries
         .grep(search_regex)
         .drop(@search_params.limit * (@search_params.page - 1))
         .take(@search_params.limit)
         .map(&:strip)
         .to_a
+    end
+  end
+
+  def load_log_entries
+    File.open(log_file_path, 'r') do |log_file|
+      yield FileLazyReverseLineReader.call(log_file)
     end
   end
 
