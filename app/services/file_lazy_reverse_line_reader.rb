@@ -27,23 +27,24 @@ class FileLazyReverseLineReader
     return enum_for(:reverse_each_line) unless block_given?
 
     loop do
-      read_size = [@max_read_size, @prev_pos].min
+      # Handle edge case of reading last chunk
+      chunk_size = [@max_read_size, @prev_pos].min
 
-      chunk = read_chunk(@file_pos, read_size)
+      chunk = read_chunk(chunk_size)
       process_chunk(chunk, &block)
 
       break if @file_pos.zero?
 
       @prev_pos = @file_pos
-      @file_pos = [@file_pos - read_size, 0].max
+      @file_pos = [@file_pos - chunk_size, 0].max
     end
 
     yield @line_buffer unless @line_buffer.empty?
   end
 
-  def read_chunk(file_pos, read_size)
-    @file.seek(file_pos, IO::SEEK_SET)
-    @file.read(read_size)
+  def read_chunk(chunk_size)
+    @file.seek(@file_pos, IO::SEEK_SET)
+    @file.read(chunk_size)
   end
 
   def process_chunk(chunk)
@@ -52,6 +53,7 @@ class FileLazyReverseLineReader
     return if split_chunk.empty?
 
     # The last element is a continuation of the previous line
+    # (This removes the last element from split_chunk)
     @line_buffer = split_chunk.pop + @line_buffer
 
     # This chunk contained no newline characters
@@ -62,9 +64,10 @@ class FileLazyReverseLineReader
     @line_buffer = ''
 
     # The first element is an incomplete line
+    # (This removes the first element from split_chunk)
     @line_buffer = split_chunk.shift
 
-    # Process remaining complete lines
+    # Process remaining complete lines (if any remain)
     split_chunk.reverse_each do |line|
       yield line unless line.empty?
     end
