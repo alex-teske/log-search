@@ -1,6 +1,6 @@
 # Log Search Demo - Alex Teske
 
-This project demonstrates a simple log search system. The current implementation allows a user to search within log files in /var/logs on their file system.
+This project demonstrates a simple log search system. The current implementation allows a user to search within log files in /var/logs on the server's file system.
 
 The project has been implemented in Ruby on Rails 7.0.8 and tested on a Windows platform.
 
