@@ -32,7 +32,7 @@ The web service exposes two endpoints:
     - **file_name (required)**: The name of the file to search within
     - **search_string (optional)**: A keyword to search for within the logs 
     - **limit (optional)**: The maximum number of log entries to return (default 10, maximum 1000)
-    - **page (optional)**: The page of results to return (default 1)
+    - **page (optional)**: The page number of results to return, each page contains *limit* results (default 1)
 
 ## Key Classes
 
